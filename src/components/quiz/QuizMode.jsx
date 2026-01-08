@@ -1,16 +1,51 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { questions } from '../../data/questions.jsx'
 import Question from './Question'
 import DiagramQuestion from './DiagramQuestion'
 import DrawingQuestion from './DrawingQuestion'
 import Results from './Results'
 
+// Fisher-Yates shuffle algorithm
+const shuffleArray = (array) => {
+  const shuffled = [...array]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
+}
+
+// Shuffle diagram options and update correct index
+const shuffleDiagramQuestions = (questions) => {
+  return questions.map(q => {
+    if (q.type === 'diagram') {
+      const correctOption = q.diagramOptions[q.correct]
+      const shuffledOptions = shuffleArray(q.diagramOptions)
+      const newCorrectIndex = shuffledOptions.indexOf(correctOption)
+
+      return {
+        ...q,
+        diagramOptions: shuffledOptions,
+        correct: newCorrectIndex
+      }
+    }
+    return q
+  })
+}
+
 export default function QuizMode() {
+  const [shuffleKey, setShuffleKey] = useState(0)
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [score, setScore] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [showExplanation, setShowExplanation] = useState(false)
   const [quizComplete, setQuizComplete] = useState(false)
+
+  // Shuffle diagram questions on mount and restart
+  const shuffledQuestions = useMemo(() =>
+    shuffleDiagramQuestions(questions),
+    [shuffleKey]
+  )
 
   const handleAnswerSelect = (answerIndex) => {
     if (showExplanation) return // Already answered
@@ -19,13 +54,13 @@ export default function QuizMode() {
     setShowExplanation(true)
 
     // Only increment score if answer is correct (not 'idk')
-    if (answerIndex !== 'idk' && answerIndex === questions[currentQuestion].correct) {
+    if (answerIndex !== 'idk' && answerIndex === shuffledQuestions[currentQuestion].correct) {
       setScore(score + 1)
     }
   }
 
   const handleNext = () => {
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < shuffledQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
       setSelectedAnswer(null)
       setShowExplanation(false)
@@ -49,10 +84,11 @@ export default function QuizMode() {
     setSelectedAnswer(null)
     setShowExplanation(false)
     setQuizComplete(false)
+    setShuffleKey(prev => prev + 1) // Trigger new shuffle
   }
 
   if (quizComplete) {
-    return <Results score={score} total={questions.length} onRestart={handleRestart} />
+    return <Results score={score} total={shuffledQuestions.length} onRestart={handleRestart} />
   }
 
   return (
@@ -64,12 +100,12 @@ export default function QuizMode() {
           </h2>
           <div className="bg-slate-800 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg">
             <span className="text-primary-400 font-bold text-sm sm:text-base">
-              {score}/{questions.length}
+              {score}/{shuffledQuestions.length}
             </span>
           </div>
         </div>
         <span className="text-slate-400 text-sm sm:text-base">
-          Question {currentQuestion + 1} of {questions.length}
+          Question {currentQuestion + 1} of {shuffledQuestions.length}
         </span>
       </div>
 
@@ -77,26 +113,26 @@ export default function QuizMode() {
       <div className="mb-6 sm:mb-8 bg-slate-800 rounded-full h-2.5 sm:h-3 overflow-hidden">
         <div
           className="bg-gradient-to-r from-primary-500 to-accent-500 h-full transition-all duration-300"
-          style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+          style={{ width: `${((currentQuestion + 1) / shuffledQuestions.length) * 100}%` }}
         />
       </div>
 
-      {questions[currentQuestion].type === 'drawing' ? (
+      {shuffledQuestions[currentQuestion].type === 'drawing' ? (
         <DrawingQuestion
-          key={questions[currentQuestion].id}
-          question={questions[currentQuestion]}
+          key={shuffledQuestions[currentQuestion].id}
+          question={shuffledQuestions[currentQuestion]}
           onComplete={handleDrawingComplete}
         />
-      ) : questions[currentQuestion].type === 'diagram' ? (
+      ) : shuffledQuestions[currentQuestion].type === 'diagram' ? (
         <DiagramQuestion
-          question={questions[currentQuestion]}
+          question={shuffledQuestions[currentQuestion]}
           selectedAnswer={selectedAnswer}
           showExplanation={showExplanation}
           onAnswerSelect={handleAnswerSelect}
         />
       ) : (
         <Question
-          question={questions[currentQuestion]}
+          question={shuffledQuestions[currentQuestion]}
           selectedAnswer={selectedAnswer}
           showExplanation={showExplanation}
           onAnswerSelect={handleAnswerSelect}
@@ -104,12 +140,12 @@ export default function QuizMode() {
       )}
 
       {/* Only show Next button for non-drawing questions */}
-      {showExplanation && questions[currentQuestion].type !== 'drawing' && (
+      {showExplanation && shuffledQuestions[currentQuestion].type !== 'drawing' && (
         <button
           onClick={handleNext}
           className="w-full mt-6 px-6 py-3 bg-primary-500 active:bg-primary-600 text-white font-semibold rounded-lg transition-colors text-sm sm:text-base"
         >
-          {currentQuestion < questions.length - 1 ? 'Next Question' : 'See Results'}
+          {currentQuestion < shuffledQuestions.length - 1 ? 'Next Question' : 'See Results'}
         </button>
       )}
     </div>
