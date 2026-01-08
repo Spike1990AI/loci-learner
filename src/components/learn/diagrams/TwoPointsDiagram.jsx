@@ -166,7 +166,7 @@ export default function TwoPointsDiagram() {
         <circle
           cx={testPoint.x}
           cy={testPoint.y}
-          r="8"
+          r="12"
           fill={isOnLocus ? 'rgb(16 185 129)' : 'rgb(244 63 94)'}
           cursor="grab"
           onPointerDown={(e) => handlePointerDown(e, 'test')}

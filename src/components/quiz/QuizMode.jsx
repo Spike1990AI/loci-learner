@@ -45,22 +45,24 @@ export default function QuizMode() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-slate-100">
-          Loci Quiz
-        </h2>
-        <div className="flex items-center gap-4">
-          <span className="text-slate-400">
-            Question {currentQuestion + 1} of {questions.length}
-          </span>
-          <div className="bg-slate-800 px-4 py-2 rounded-lg">
-            <span className="text-primary-400 font-bold">Score: {score}/{questions.length}</span>
+      <div className="mb-4 sm:mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-100">
+            Loci Quiz
+          </h2>
+          <div className="bg-slate-800 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg">
+            <span className="text-primary-400 font-bold text-sm sm:text-base">
+              {score}/{questions.length}
+            </span>
           </div>
         </div>
+        <span className="text-slate-400 text-sm sm:text-base">
+          Question {currentQuestion + 1} of {questions.length}
+        </span>
       </div>
 
       {/* Progress bar */}
-      <div className="mb-8 bg-slate-800 rounded-full h-3 overflow-hidden">
+      <div className="mb-6 sm:mb-8 bg-slate-800 rounded-full h-2.5 sm:h-3 overflow-hidden">
         <div
           className="bg-gradient-to-r from-primary-500 to-accent-500 h-full transition-all duration-300"
           style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
@@ -77,7 +79,7 @@ export default function QuizMode() {
       {showExplanation && (
         <button
           onClick={handleNext}
-          className="w-full mt-6 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-lg transition-colors"
+          className="w-full mt-6 px-6 py-3 bg-primary-500 active:bg-primary-600 text-white font-semibold rounded-lg transition-colors text-sm sm:text-base"
         >
           {currentQuestion < questions.length - 1 ? 'Next Question' : 'See Results'}
         </button>
