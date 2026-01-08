@@ -168,12 +168,12 @@ export default function DrawingQuestion({ question, onComplete }) {
       case 'angleBisector': {
         const { origin, angle } = referencePoints
         const bisectorAngle = (angle / 2) * Math.PI / 180
-        const length = 300
+        const length = 200
 
         return (
           <line
-            x1={origin.x}
-            y1={origin.y}
+            x1={origin.x - Math.cos(bisectorAngle) * length}
+            y1={origin.y - Math.sin(bisectorAngle) * length}
             x2={origin.x + Math.cos(bisectorAngle) * length}
             y2={origin.y + Math.sin(bisectorAngle) * length}
             stroke="rgb(34 211 238)"
