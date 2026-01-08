@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { questions } from '../../data/questions'
+import { questions } from '../../data/questions.jsx'
 import Question from './Question'
+import DiagramQuestion from './DiagramQuestion'
+import DrawingQuestion from './DrawingQuestion'
 import Results from './Results'
 
 export default function QuizMode() {
@@ -16,7 +18,8 @@ export default function QuizMode() {
     setSelectedAnswer(answerIndex)
     setShowExplanation(true)
 
-    if (answerIndex === questions[currentQuestion].correct) {
+    // Only increment score if answer is correct (not 'idk')
+    if (answerIndex !== 'idk' && answerIndex === questions[currentQuestion].correct) {
       setScore(score + 1)
     }
   }
@@ -29,6 +32,15 @@ export default function QuizMode() {
     } else {
       setQuizComplete(true)
     }
+  }
+
+  const handleDrawingComplete = (isCorrect) => {
+    // Score the drawing question
+    if (isCorrect) {
+      setScore(score + 1)
+    }
+    // Move to next question
+    handleNext()
   }
 
   const handleRestart = () => {
@@ -69,14 +81,29 @@ export default function QuizMode() {
         />
       </div>
 
-      <Question
-        question={questions[currentQuestion]}
-        selectedAnswer={selectedAnswer}
-        showExplanation={showExplanation}
-        onAnswerSelect={handleAnswerSelect}
-      />
+      {questions[currentQuestion].type === 'drawing' ? (
+        <DrawingQuestion
+          question={questions[currentQuestion]}
+          onComplete={handleDrawingComplete}
+        />
+      ) : questions[currentQuestion].type === 'diagram' ? (
+        <DiagramQuestion
+          question={questions[currentQuestion]}
+          selectedAnswer={selectedAnswer}
+          showExplanation={showExplanation}
+          onAnswerSelect={handleAnswerSelect}
+        />
+      ) : (
+        <Question
+          question={questions[currentQuestion]}
+          selectedAnswer={selectedAnswer}
+          showExplanation={showExplanation}
+          onAnswerSelect={handleAnswerSelect}
+        />
+      )}
 
-      {showExplanation && (
+      {/* Only show Next button for non-drawing questions */}
+      {showExplanation && questions[currentQuestion].type !== 'drawing' && (
         <button
           onClick={handleNext}
           className="w-full mt-6 px-6 py-3 bg-primary-500 active:bg-primary-600 text-white font-semibold rounded-lg transition-colors text-sm sm:text-base"
