@@ -249,8 +249,8 @@ export const questions = [
   {
     id: 13,
     type: 'drawing',
-    question: 'Draw the locus of all points 80 pixels from point P',
-    instruction: 'Use your finger or mouse to draw a circle around point P',
+    question: 'Draw the locus of all points at a fixed distance from point P',
+    instruction: 'Trace over the dashed guide circle with your finger or mouse',
     locusType: 'circle',
     referencePoints: {
       center: { x: 250, y: 200 },
@@ -268,7 +268,7 @@ export const questions = [
     id: 14,
     type: 'drawing',
     question: 'Draw the locus of all points equidistant from points A and B',
-    instruction: 'Draw a straight line through the midpoint, perpendicular to AB',
+    instruction: 'Trace over the dashed vertical line (the perpendicular bisector)',
     locusType: 'perpendicularBisector',
     referencePoints: {
       pointA: { x: 150, y: 200 },
@@ -289,7 +289,7 @@ export const questions = [
     id: 15,
     type: 'drawing',
     question: 'Draw the locus of all points equidistant from the two lines',
-    instruction: 'Draw a line that splits the angle in half',
+    instruction: 'Trace over the dashed diagonal line (the angle bisector)',
     locusType: 'angleBisector',
     referencePoints: {
       origin: { x: 250, y: 200 },

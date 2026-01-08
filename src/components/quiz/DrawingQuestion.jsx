@@ -5,6 +5,7 @@ export default function DrawingQuestion({ question, onComplete }) {
   const [path, setPath] = useState([])
   const [submitted, setSubmitted] = useState(false)
   const [result, setResult] = useState(null)
+  const [showGuide, setShowGuide] = useState(true)
   const svgRef = useRef(null)
 
   const handlePointerDown = (e) => {
@@ -36,6 +37,7 @@ export default function DrawingQuestion({ question, onComplete }) {
     setPath([])
     setSubmitted(false)
     setResult(null)
+    setShowGuide(true)
   }
 
   const handleSubmit = () => {
@@ -121,6 +123,72 @@ export default function DrawingQuestion({ question, onComplete }) {
     }
   }
 
+  // Render guide based on locus type
+  const renderGuide = () => {
+    if (!showGuide) return null
+
+    const { locusType, referencePoints } = question
+
+    switch (locusType) {
+      case 'circle': {
+        const { center, radius } = referencePoints
+        return (
+          <circle
+            cx={center.x}
+            cy={center.y}
+            r={radius}
+            fill="none"
+            stroke="rgb(34 211 238)"
+            strokeWidth="2"
+            strokeDasharray="5,5"
+            opacity="0.4"
+          />
+        )
+      }
+
+      case 'perpendicularBisector': {
+        const { pointA, pointB } = referencePoints
+        const midX = (pointA.x + pointB.x) / 2
+
+        // Draw vertical line through midpoint
+        return (
+          <line
+            x1={midX}
+            y1={50}
+            x2={midX}
+            y2={350}
+            stroke="rgb(34 211 238)"
+            strokeWidth="2"
+            strokeDasharray="5,5"
+            opacity="0.4"
+          />
+        )
+      }
+
+      case 'angleBisector': {
+        const { origin, angle } = referencePoints
+        const bisectorAngle = (angle / 2) * Math.PI / 180
+        const length = 300
+
+        return (
+          <line
+            x1={origin.x}
+            y1={origin.y}
+            x2={origin.x + Math.cos(bisectorAngle) * length}
+            y2={origin.y + Math.sin(bisectorAngle) * length}
+            stroke="rgb(34 211 238)"
+            strokeWidth="2"
+            strokeDasharray="5,5"
+            opacity="0.4"
+          />
+        )
+      }
+
+      default:
+        return null
+    }
+  }
+
   // Convert path array to SVG path string
   const pathString = path.length > 0
     ? `M ${path.map(p => `${p.x},${p.y}`).join(' L ')}`
@@ -132,9 +200,24 @@ export default function DrawingQuestion({ question, onComplete }) {
         {question.question}
       </h3>
 
-      <p className="text-slate-300 text-sm mb-4">
+      <p className="text-slate-300 text-sm mb-2">
         {question.instruction || 'Draw the locus on the diagram below'}
       </p>
+
+      {/* Guide Toggle */}
+      {!submitted && (
+        <div className="flex items-center gap-2 mb-4">
+          <button
+            onClick={() => setShowGuide(!showGuide)}
+            className="text-sm text-primary-400 hover:text-primary-300 transition-colors"
+          >
+            {showGuide ? '👁️ Hide Guide' : '👁️‍🗨️ Show Guide'}
+          </button>
+          <span className="text-xs text-slate-500">
+            (Dashed cyan line shows the target locus)
+          </span>
+        </div>
+      )}
 
       {/* Drawing Canvas */}
       <div className="bg-slate-900 rounded-lg overflow-hidden mb-4">
@@ -157,6 +240,9 @@ export default function DrawingQuestion({ question, onComplete }) {
 
           {/* Reference points/lines from question */}
           {question.referenceElements}
+
+          {/* Guide (dashed cyan line showing the target) */}
+          {renderGuide()}
 
           {/* User's drawn path */}
           {path.length > 0 && (
