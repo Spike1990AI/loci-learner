@@ -137,15 +137,7 @@ export const questions = [
     type: 'diagram',
     question: 'Points A and B are shown. Which diagram correctly shows the locus of all points equidistant from both A and B?',
     diagramOptions: [
-      // Option A - Perpendicular bisector (Correct)
-      <>
-        <circle cx="60" cy="100" r="5" fill="rgb(244 114 182)" />
-        <circle cx="140" cy="100" r="5" fill="rgb(244 114 182)" />
-        <line x1="100" y1="20" x2="100" y2="180" stroke="rgb(34 211 238)" strokeWidth="2" strokeDasharray="4,2" />
-        <text x="60" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">A</text>
-        <text x="140" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">B</text>
-      </>,
-      // Option B - Line joining A and B
+      // Option A - Line joining A and B
       <>
         <circle cx="60" cy="100" r="5" fill="rgb(244 114 182)" />
         <circle cx="140" cy="100" r="5" fill="rgb(244 114 182)" />
@@ -153,15 +145,7 @@ export const questions = [
         <text x="60" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">A</text>
         <text x="140" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">B</text>
       </>,
-      // Option C - Circle through both points
-      <>
-        <circle cx="60" cy="100" r="5" fill="rgb(244 114 182)" />
-        <circle cx="140" cy="100" r="5" fill="rgb(244 114 182)" />
-        <circle cx="100" cy="100" r="50" fill="none" stroke="rgb(100 116 139)" strokeWidth="2" />
-        <text x="60" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">A</text>
-        <text x="140" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">B</text>
-      </>,
-      // Option D - Parallel lines
+      // Option B - Parallel lines
       <>
         <circle cx="60" cy="100" r="5" fill="rgb(244 114 182)" />
         <circle cx="140" cy="100" r="5" fill="rgb(244 114 182)" />
@@ -169,9 +153,25 @@ export const questions = [
         <line x1="20" y1="130" x2="180" y2="130" stroke="rgb(100 116 139)" strokeWidth="2" />
         <text x="60" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">A</text>
         <text x="140" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">B</text>
+      </>,
+      // Option C - Perpendicular bisector (Correct)
+      <>
+        <circle cx="60" cy="100" r="5" fill="rgb(244 114 182)" />
+        <circle cx="140" cy="100" r="5" fill="rgb(244 114 182)" />
+        <line x1="100" y1="20" x2="100" y2="180" stroke="rgb(34 211 238)" strokeWidth="2" strokeDasharray="4,2" />
+        <text x="60" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">A</text>
+        <text x="140" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">B</text>
+      </>,
+      // Option D - Circle through both points
+      <>
+        <circle cx="60" cy="100" r="5" fill="rgb(244 114 182)" />
+        <circle cx="140" cy="100" r="5" fill="rgb(244 114 182)" />
+        <circle cx="100" cy="100" r="50" fill="none" stroke="rgb(100 116 139)" strokeWidth="2" />
+        <text x="60" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">A</text>
+        <text x="140" y="90" fill="rgb(148 163 184)" fontSize="12" fontWeight="bold">B</text>
       </>
     ],
-    correct: 0,
+    correct: 2,
     explanation: 'The perpendicular bisector (vertical line through the midpoint) contains all points equidistant from A and B.'
   },
   {
@@ -179,7 +179,12 @@ export const questions = [
     type: 'diagram',
     question: 'A fence line is shown. Which diagram shows the locus of all points exactly 3m from the fence?',
     diagramOptions: [
-      // Option A - Stadium shape (Correct)
+      // Option A - Circle around midpoint
+      <>
+        <line x1="60" y1="100" x2="140" y2="100" stroke="rgb(100 116 139)" strokeWidth="3" />
+        <circle cx="100" cy="100" r="50" fill="none" stroke="rgb(100 116 139)" strokeWidth="2" strokeDasharray="4,2" />
+      </>,
+      // Option B - Stadium shape (Correct)
       <>
         <line x1="60" y1="100" x2="140" y2="100" stroke="rgb(100 116 139)" strokeWidth="3" />
         <line x1="60" y1="70" x2="140" y2="70" stroke="rgb(34 211 238)" strokeWidth="2" strokeDasharray="4,2" />
@@ -187,15 +192,10 @@ export const questions = [
         <path d="M 140 70 A 30 30 0 0 1 140 130" fill="none" stroke="rgb(34 211 238)" strokeWidth="2" strokeDasharray="4,2" />
         <path d="M 60 130 A 30 30 0 0 1 60 70" fill="none" stroke="rgb(34 211 238)" strokeWidth="2" strokeDasharray="4,2" />
       </>,
-      // Option B - Rectangle only
+      // Option C - Rectangle only
       <>
         <line x1="60" y1="100" x2="140" y2="100" stroke="rgb(100 116 139)" strokeWidth="3" />
         <rect x="60" y="70" width="80" height="60" fill="none" stroke="rgb(100 116 139)" strokeWidth="2" strokeDasharray="4,2" />
-      </>,
-      // Option C - Circle around midpoint
-      <>
-        <line x1="60" y1="100" x2="140" y2="100" stroke="rgb(100 116 139)" strokeWidth="3" />
-        <circle cx="100" cy="100" r="50" fill="none" stroke="rgb(100 116 139)" strokeWidth="2" strokeDasharray="4,2" />
       </>,
       // Option D - Parallel lines only (no ends)
       <>
@@ -204,7 +204,7 @@ export const questions = [
         <line x1="40" y1="130" x2="160" y2="130" stroke="rgb(100 116 139)" strokeWidth="2" strokeDasharray="4,2" />
       </>
     ],
-    correct: 0,
+    correct: 1,
     explanation: 'The locus forms a stadium shape - two parallel lines with semicircular ends at both ends of the fence.'
   },
   {
@@ -212,37 +212,37 @@ export const questions = [
     type: 'diagram',
     question: 'Two roads meet at an angle. Which diagram shows the locus of points equidistant from both roads?',
     diagramOptions: [
-      // Option A - Angle bisector (Correct)
-      <>
-        <line x1="50" y1="100" x2="150" y2="100" stroke="rgb(100 116 139)" strokeWidth="3" />
-        <line x1="100" y1="50" x2="100" y2="150" stroke="rgb(100 116 139)" strokeWidth="3" />
-        <line x1="60" y1="60" x2="140" y2="140" stroke="rgb(34 211 238)" strokeWidth="2" strokeDasharray="4,2" />
-        <circle cx="100" cy="100" r="4" fill="rgb(34 211 238)" />
-      </>,
-      // Option B - Perpendicular to one line
+      // Option A - Perpendicular to one line
       <>
         <line x1="50" y1="100" x2="150" y2="100" stroke="rgb(100 116 139)" strokeWidth="3" />
         <line x1="100" y1="50" x2="100" y2="150" stroke="rgb(100 116 139)" strokeWidth="3" />
         <line x1="120" y1="50" x2="120" y2="150" stroke="rgb(100 116 139)" strokeWidth="2" strokeDasharray="4,2" />
         <circle cx="100" cy="100" r="4" fill="rgb(34 211 238)" />
       </>,
-      // Option C - Circle at intersection
+      // Option B - Circle at intersection
       <>
         <line x1="50" y1="100" x2="150" y2="100" stroke="rgb(100 116 139)" strokeWidth="3" />
         <line x1="100" y1="50" x2="100" y2="150" stroke="rgb(100 116 139)" strokeWidth="3" />
         <circle cx="100" cy="100" r="40" fill="none" stroke="rgb(100 116 139)" strokeWidth="2" strokeDasharray="4,2" />
         <circle cx="100" cy="100" r="4" fill="rgb(34 211 238)" />
       </>,
-      // Option D - Both bisectors
+      // Option C - Both bisectors
       <>
         <line x1="50" y1="100" x2="150" y2="100" stroke="rgb(100 116 139)" strokeWidth="3" />
         <line x1="100" y1="50" x2="100" y2="150" stroke="rgb(100 116 139)" strokeWidth="3" />
         <line x1="60" y1="60" x2="140" y2="140" stroke="rgb(100 116 139)" strokeWidth="2" strokeDasharray="4,2" />
         <line x1="140" y1="60" x2="60" y2="140" stroke="rgb(100 116 139)" strokeWidth="2" strokeDasharray="4,2" />
         <circle cx="100" cy="100" r="4" fill="rgb(34 211 238)" />
+      </>,
+      // Option D - Angle bisector (Correct)
+      <>
+        <line x1="50" y1="100" x2="150" y2="100" stroke="rgb(100 116 139)" strokeWidth="3" />
+        <line x1="100" y1="50" x2="100" y2="150" stroke="rgb(100 116 139)" strokeWidth="3" />
+        <line x1="60" y1="60" x2="140" y2="140" stroke="rgb(34 211 238)" strokeWidth="2" strokeDasharray="4,2" />
+        <circle cx="100" cy="100" r="4" fill="rgb(34 211 238)" />
       </>
     ],
-    correct: 0,
+    correct: 3,
     explanation: 'The angle bisector (diagonal line splitting the angle in half) contains all points equidistant from both roads.'
   },
   // Drawing questions

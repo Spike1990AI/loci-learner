@@ -83,6 +83,7 @@ export default function QuizMode() {
 
       {questions[currentQuestion].type === 'drawing' ? (
         <DrawingQuestion
+          key={questions[currentQuestion].id}
           question={questions[currentQuestion]}
           onComplete={handleDrawingComplete}
         />
